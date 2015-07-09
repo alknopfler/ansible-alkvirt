@@ -1,0 +1,9 @@
+---
+- include: create_guest.yml
+  when: " operacion  == 'create'"
+- include: list_guest.yml
+  when: " operacion  == 'list'"
+- include: delete_guest.yml
+  when: " operacion  == 'delete'"
+- include: resize_guest.yml
+  when: " operacion  == 'resize'"

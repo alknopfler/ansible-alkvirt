@@ -1,0 +1,30 @@
+---
+# task para crear guest en alkvirt
+
+### Verificacion y creacion del entorno de directorios necesarios
+- name: "Verificar si el path existe..."
+  stat: path={{ path_default }}/compute-images/{{ nombre}}
+  register: p
+- name: "Creacion del directorio de trabajo de la instancia..."
+  shell: mkdir {{ path_default }}/compute-images/{{ nombre }}
+  when: p.stat.isdir is not defined
+
+#### copia de ficheros de imagen y iso
+- name: "Copia de ficheros...Template"
+  template: src=template.xml.j2 dest={{ path_default }}/compute-images/{{ nombre }}/{{ nombre }}.xml
+- name: "Copia de ficheros...Imagen"
+  shell: qemu-img convert {{ path_default}}/roles/gestion-alkvirt/files/glance/{{ ssoo }}.img -O raw {{ path_default }}/compute-images/{{ nombre }}/{{ nombre }}.img
+- name: "Cambio de permisos +x"
+  file: path={{ path_default }}/compute-images/{{ nombre }}/{{ nombre }}.img mode=0755
+- name: "Copia de ficheros...Iso"
+  copy: src=glance/ubuntu.iso dest={{ path_default }}/compute-images/{{ nombre }}
+
+#### resize de la imagen a lo que nos pide el usuario
+- name: "Resize de imagen"
+  shell: qemu-img resize {{ path_default }}/compute-images/{{ nombre }}/{{ nombre }}.img +{{ disco }}G
+
+#### creacion de la instancia con el modulo virt
+- name: "Crear la instancia con Virt"
+  shell: virsh define {{ path_default }}compute-images/{{ nombre }}/{{ nombre }}.xml ; virsh autostart {{ nombre }} ; virsh start {{ nombre }}
+
+

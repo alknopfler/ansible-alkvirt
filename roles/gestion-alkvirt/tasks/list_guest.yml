@@ -1,0 +1,10 @@
+---
+### modulo para listar en caso de que la operacion sea list
+# hace uso de la libreria virt list y de el cat del inventario
+- command: virsh list
+  register: output
+- debug: var=output.stdout_lines
+
+- command: sshpass -p 61B3g0t0!! ssh root@192.168.2.1 "cat /etc/config/dhcp.leases | awk '{print $3, $4}' | grep -v '*' -"
+  register: output2
+- debug: var=output2.stdout_lines

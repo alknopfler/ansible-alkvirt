@@ -1,0 +1,5 @@
+---
+# tasks file for openstack-guest
+
+- include: pre-setup.yml
+- include: install.yml

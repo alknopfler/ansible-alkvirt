@@ -1,0 +1,15 @@
+---
+#### instalacion de devstack
+
+- name: clone devstack
+  git: repo=https://github.com/openstack-dev/devstack.git
+       dest=~/devstack
+       version=stable/{{ branch }}
+
+- name: copy config file
+  template: src=template-devstack.conf.j2
+            dest=~/devstack/local.conf
+
+- name: despliegue stack
+  command: chdir=~/devstack ./stack.sh
+  ignore_errors: yes

@@ -1,0 +1,18 @@
+---
+# task para cambiar tamano del disco del guest en alkvirt
+
+### Verificacion y creacion del entorno de directorios necesarios
+- name: "Verificar si el path existe..."
+  stat: path={{ path_default }}/compute-images/{{ nombre}}
+
+### paramos la instancia
+- name: "Shutdown de la instancia"
+  shell: virsh shutdown {{ nombre }}
+
+#### resize de la imagen a lo que nos pide el usuario
+- name: "Resize de imagen"
+  shell: qemu-img resize {{ path_default }}/compute-images/{{ nombre }}/{{ nombre }}.img +{{ disco }}G
+
+#### levantamos de nuevo la instancia con el modulo virt
+- name: "Levantar de nuevo la instancia con Virt"
+  shell: virsh start {{ nombre }}

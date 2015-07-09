@@ -1,0 +1,5 @@
+*.img
+*.iso
+*.qcow2
+inventario-script.sh
+*.pem

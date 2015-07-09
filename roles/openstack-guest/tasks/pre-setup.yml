@@ -1,0 +1,30 @@
+---
+- name: "update del software base en las instancias"
+  # update y upgrade de los paquetes
+  apt: update_cache=yes
+  sudo: yes
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: "update del software base en las instancias"
+  yum: name=* state=latest
+  sudo: yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+  # instalacion de los paquetes basicos
+- name: "instalacion de paquetes basicos"
+  apt: name={{ item }} state=latest
+  with_items:
+     - ntp
+     - git
+     - libxslt1-dev
+  sudo: yes
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: "instalacion de paquetes basicos"
+  yum: name={{ item }} state=latest
+  with_items:
+     - ntp
+     - git
+     - libxslt1-dev
+  sudo: yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'

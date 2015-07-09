@@ -1,0 +1,16 @@
+---
+# task para borrar guest en alkvirt
+
+- name: "Borrar la instancia con Virt"
+  shell: virsh destroy {{ nombre }}
+
+
+- name: "Verificar si el path existe..."
+  stat: path={{ path_default }}/compute-images/{{ nombre}}
+  register: p
+
+- name: "Creacion del directorio de trabajo de la instancia..."
+  file: state=absent path={{ path_default }}/compute-images/{{ nombre }}
+  when: p.stat.isdir is defined
+
+

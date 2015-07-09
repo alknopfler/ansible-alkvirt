@@ -1,0 +1,32 @@
+- name: install new guest image
+  hosts: localhost
+  
+  vars_prompt:
+    - name: "operacion"
+      prompt: "Operacion [create|delete|list|resize]"
+      default: "list"
+      private: no
+    - name: "nombre"
+      prompt: "Nombre de instancia"
+      default: "guest"
+      private: no
+
+    - name: "memoria"
+      prompt: "Memoria de la instancia"
+      default: "1"
+      private: no
+    - name: "vcpu"
+      prompt: "virtual cpu de la instancia"
+      default: "1"
+      private: no
+    - name: "disco"
+      prompt: "size del disco en Gb"
+      default: "10"
+      private: no
+    - name: "ssoo"
+      prompt: "sistema operativo"
+      default: "ubuntu"
+      private: no
+
+  roles:
+    - gestion-alkvirt
