@@ -3,3 +3,4 @@
 *.qcow2
 inventario-script.sh
 *.pem
+list_guest.yml
